@@ -16,7 +16,8 @@ interface TaskFormProps {
 }
 
 export const TaskForm = ({ isOpen, onClose, categories, priorities }: TaskFormProps) => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  import { useState } from "react";
+const [date, setDate] = useState<Date | undefined>(new Date());
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

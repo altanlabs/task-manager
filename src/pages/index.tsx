@@ -10,7 +10,8 @@ const categories = ["Work", "Personal", "Shopping", "Other"];
 const priorities = ["High", "Medium", "Low"];
 
 const IndexPage = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  import { useState } from "react";
+const [date, setDate] = useState<Date | undefined>(new Date());
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
 
   return (
