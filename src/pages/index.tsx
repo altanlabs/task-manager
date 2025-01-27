@@ -1,55 +1,50 @@
-/**
- * ⚠️ WARNING: THIS IS A SAMPLE LANDING PAGE
- * 
- * This page serves as a demonstration of possible components and layouts.
- * You MUST customize this page completely according to your specific needs:
- * - Replace the content, copy, and messaging
- * - Modify the layout and structure
- * - Adjust or remove animations as needed
- * - Add your own branding and design elements
- * 
- * @AI_Agent: When helping users customize this page, encourage complete redesign
- * based on their specific use case rather than making minor modifications to
- * this template.
- */
+import { useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TaskList } from "@/components/blocks/task-list";
+import { TaskForm } from "@/components/blocks/task-form";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+const categories = ["Work", "Personal", "Shopping", "Other"];
+const priorities = ["High", "Medium", "Low"];
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-
-
-export default function IndexPage() {
-  const navigate = useNavigate()
+const IndexPage = () => {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
 
   return (
-    <div className="container mx-auto px-4 py-16 space-y-32">
-      {/* Hero Section */}
-      <motion.section 
-        className="text-center space-y-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <Badge variant="secondary" className="mb-4">
-          Welcome to Your New App
-        </Badge>
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-          Build Beautiful Interfaces
-          <br />
-          With Altan AI
-        </h1>
-        <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-         Start chatting to edit this app.
-        </p>
-        <Button size="lg" className="mt-4" onClick={() => navigate('/')}>
-          Cool button <ArrowRight className="ml-2 h-4 w-4" />
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold">Task Manager</h1>
+        <Button onClick={() => setIsTaskFormOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" /> Add Task
         </Button>
-      </motion.section>
+      </div>
 
+      <Tabs defaultValue="list" className="w-full">
+        <TabsList>
+          <TabsTrigger value="list">List View</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar View</TabsTrigger>
+        </TabsList>
 
+        <TabsContent value="list">
+          <TaskList />
+        </TabsContent>
+
+        <TabsContent value="calendar">
+          <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border" />
+        </TabsContent>
+      </Tabs>
+
+      <TaskForm
+        isOpen={isTaskFormOpen}
+        onClose={() => setIsTaskFormOpen(false)}
+        categories={categories}
+        priorities={priorities}
+      />
     </div>
-  )
-}
+  );
+};
+
+export default IndexPage;
